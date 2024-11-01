@@ -22,5 +22,7 @@ Load `erc-irc-format.el` into a buffer and execute `M-x package-install-from-buf
 
 Alternatively, if you are using `use-package`:
 
+```
 (use-package erc
    :bind (:map erc-mode-map ("C-c q" . erc-irc-format)))
+```
