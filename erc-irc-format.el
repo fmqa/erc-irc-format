@@ -110,25 +110,26 @@
 ;; Macro helper for defining background color transient
 (defmacro erc-irc-format--color-define-prefix (name fg color)
   `(transient-define-prefix ,name ()
-     [:class transient-row :description ,(format "Foreground: %s; Background: ?" color)
-      ("00" (lambda () (erc-irc-format--describe-color-white      ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 0)))
-      ("01" (lambda () (erc-irc-format--describe-color-black      ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 1)))
-      ("02" (lambda () (erc-irc-format--describe-color-blue       ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 2)))
-      ("03" (lambda () (erc-irc-format--describe-color-green      ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 3)))
-      ("04" (lambda () (erc-irc-format--describe-color-red        ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 4)))
-      ("05" (lambda () (erc-irc-format--describe-color-brown      ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 5)))
-      ("06" (lambda () (erc-irc-format--describe-color-magenta    ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 6)))
-      ("07" (lambda () (erc-irc-format--describe-color-orange     ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 7)))
-      ("08" (lambda () (erc-irc-format--describe-color-yellow     ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 8)))
-      ("09" (lambda () (erc-irc-format--describe-color-lightgreen ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 9)))
-      ("10" (lambda () (erc-irc-format--describe-color-cyan       ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 10)))
-      ("11" (lambda () (erc-irc-format--describe-color-lightcyan  ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 11)))
-      ("12" (lambda () (erc-irc-format--describe-color-lightblue  ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 12)))
-      ("13" (lambda () (erc-irc-format--describe-color-pink       ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 13)))
-      ("14" (lambda () (erc-irc-format--describe-color-grey       ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 14)))
-      ("15" (lambda () (erc-irc-format--describe-color-lightgrey  ,fg)) (lambda () (interactive) (erc-irc-format--insert-color ,fg 15)))
+     [,(format "Foreground: %s; Background: ?" color)
+      [("00" "white"      (lambda () (interactive) (erc-irc-format--insert-color ,fg 0))  :description (lambda () (erc-irc-format--describe-color-white      ,fg)))
+       ("01" "black"      (lambda () (interactive) (erc-irc-format--insert-color ,fg 1))  :description (lambda () (erc-irc-format--describe-color-black      ,fg)))
+       ("02" "blue"       (lambda () (interactive) (erc-irc-format--insert-color ,fg 2))  :description (lambda () (erc-irc-format--describe-color-blue       ,fg)))
+       ("03" "green"      (lambda () (interactive) (erc-irc-format--insert-color ,fg 3))  :description (lambda () (erc-irc-format--describe-color-green      ,fg)))]
+      [("04" "red"        (lambda () (interactive) (erc-irc-format--insert-color ,fg 4))  :description (lambda () (erc-irc-format--describe-color-red        ,fg)))
+       ("05" "brown"      (lambda () (interactive) (erc-irc-format--insert-color ,fg 5))  :description (lambda () (erc-irc-format--describe-color-brown      ,fg)))
+       ("06" "magenta"    (lambda () (interactive) (erc-irc-format--insert-color ,fg 6))  :description (lambda () (erc-irc-format--describe-color-magenta    ,fg)))
+       ("07" "orange"     (lambda () (interactive) (erc-irc-format--insert-color ,fg 7))  :description (lambda () (erc-irc-format--describe-color-orange     ,fg)))]
+      [("08" "yellow"     (lambda () (interactive) (erc-irc-format--insert-color ,fg 8))  :description (lambda () (erc-irc-format--describe-color-yellow     ,fg)))
+       ("09" "lightgreen" (lambda () (interactive) (erc-irc-format--insert-color ,fg 9))  :description (lambda () (erc-irc-format--describe-color-lightgreen ,fg)))
+       ("10" "cyan"       (lambda () (interactive) (erc-irc-format--insert-color ,fg 10)) :description (lambda () (erc-irc-format--describe-color-cyan       ,fg)))
+       ("11" "lightcyan"  (lambda () (interactive) (erc-irc-format--insert-color ,fg 11)) :description (lambda () (erc-irc-format--describe-color-lightcyan  ,fg)))]
+      [("12" "lightblue"  (lambda () (interactive) (erc-irc-format--insert-color ,fg 12)) :description (lambda () (erc-irc-format--describe-color-lightblue  ,fg)))
+       ("13" "pink"       (lambda () (interactive) (erc-irc-format--insert-color ,fg 13)) :description (lambda () (erc-irc-format--describe-color-pink       ,fg)))
+       ("14" "grey"       (lambda () (interactive) (erc-irc-format--insert-color ,fg 14)) :description (lambda () (erc-irc-format--describe-color-grey       ,fg)))
+       ("15" "lightgrey"  (lambda () (interactive) (erc-irc-format--insert-color ,fg 15)) :description (lambda () (erc-irc-format--describe-color-lightgrey  ,fg)))]]
+     [:class transient-row
       ("s" "spoilers" (lambda () (interactive) (erc-irc-format--insert-color ,fg ,fg)))
-      ("RET" (lambda () (propertize "default" 'face (list (erc-get-fg-color-face ,fg)))) (lambda () (interactive) (erc-irc-format--insert-color ,fg)))]))
+      ("RET" (lambda () (interactive) (erc-irc-format--insert-color ,fg)) :description (lambda () (propertize "default" 'face (list (erc-get-fg-color-face ,fg)))))]))
 
 ;; Define background color prefixes
 ;;;###autoload (autoload 'erc-irc-format-color-white "erc-irc-format" nil t)
@@ -167,27 +168,27 @@
 ;; Main transient menu
 ;;;###autoload (autoload 'erc-irc-format "erc-irc-format" nil t)
 (transient-define-prefix erc-irc-format ()
-  [:class transient-row :description "Foreground"
-   ("00" "white"      erc-irc-format-color-white      :description erc-irc-format--describe-color-white)
-   ("01" "black"      erc-irc-format-color-black      :description erc-irc-format--describe-color-black)
-   ("02" "blue"       erc-irc-format-color-blue       :description erc-irc-format--describe-color-blue)
-   ("03" "green"      erc-irc-format-color-green      :description erc-irc-format--describe-color-green)
-   ("04" "red"        erc-irc-format-color-red        :description erc-irc-format--describe-color-red)
-   ("05" "brown"      erc-irc-format-color-brown      :description erc-irc-format--describe-color-brown)
-   ("06" "magenta"    erc-irc-format-color-magenta    :description erc-irc-format--describe-color-magenta)
-   ("07" "orange"     erc-irc-format-color-orange     :description erc-irc-format--describe-color-orange)
-   ("08" "yellow"     erc-irc-format-color-yellow     :description erc-irc-format--describe-color-yellow)
-   ("09" "lightgreen" erc-irc-format-color-lightgreen :description erc-irc-format--describe-color-lightgreen)
-   ("10" "cyan"       erc-irc-format-color-cyan       :description erc-irc-format--describe-color-cyan)
-   ("11" "lightcyan"  erc-irc-format-color-lightcyan  :description erc-irc-format--describe-color-lightcyan)
-   ("12" "lightblue"  erc-irc-format-color-lightblue  :description erc-irc-format--describe-color-lightblue)
-   ("13" "pink"       erc-irc-format-color-pink       :description erc-irc-format--describe-color-pink)
-   ("14" "grey"       erc-irc-format-color-grey       :description erc-irc-format--describe-color-grey)
-   ("15" "lightgrey"  erc-irc-format-color-lightgrey  :description erc-irc-format--describe-color-lightgrey)]
+  ["Foreground"
+   [("00" "white"      erc-irc-format-color-white      :description erc-irc-format--describe-color-white)
+    ("01" "black"      erc-irc-format-color-black      :description erc-irc-format--describe-color-black)
+    ("02" "blue"       erc-irc-format-color-blue       :description erc-irc-format--describe-color-blue)
+    ("03" "green"      erc-irc-format-color-green      :description erc-irc-format--describe-color-green)]
+   [("04" "red"        erc-irc-format-color-red        :description erc-irc-format--describe-color-red)
+    ("05" "brown"      erc-irc-format-color-brown      :description erc-irc-format--describe-color-brown)
+    ("06" "magenta"    erc-irc-format-color-magenta    :description erc-irc-format--describe-color-magenta)
+    ("07" "orange"     erc-irc-format-color-orange     :description erc-irc-format--describe-color-orange)]
+   [("08" "yellow"     erc-irc-format-color-yellow     :description erc-irc-format--describe-color-yellow)
+    ("09" "lightgreen" erc-irc-format-color-lightgreen :description erc-irc-format--describe-color-lightgreen)
+    ("10" "cyan"       erc-irc-format-color-cyan       :description erc-irc-format--describe-color-cyan)
+    ("11" "lightcyan"  erc-irc-format-color-lightcyan  :description erc-irc-format--describe-color-lightcyan)]
+   [("12" "lightblue"  erc-irc-format-color-lightblue  :description erc-irc-format--describe-color-lightblue)
+    ("13" "pink"       erc-irc-format-color-pink       :description erc-irc-format--describe-color-pink)
+    ("14" "grey"       erc-irc-format-color-grey       :description erc-irc-format--describe-color-grey)
+    ("15" "lightgrey"  erc-irc-format-color-lightgrey  :description erc-irc-format--describe-color-lightgrey)]]
   [:class transient-row :description "Effects"
-   ("i"  "italic"     erc-irc-format-italicize        :description erc-irc-format--describe-italic)
-   ("b"  "bold"       erc-irc-format-boldify          :description erc-irc-format--describe-bold)
-   ("u"  "underline"  erc-irc-format-underline        :description erc-irc-format--describe-underline)])
+   ("i"  "italic"      erc-irc-format-italicize        :description erc-irc-format--describe-italic)
+   ("b"  "bold"        erc-irc-format-boldify          :description erc-irc-format--describe-bold)
+   ("u"  "underline"   erc-irc-format-underline        :description erc-irc-format--describe-underline)])
 
 ;; Erc module to normalize text inserted at the prompt.
 ;; Author: Alcor <alcor@tilde.club>
