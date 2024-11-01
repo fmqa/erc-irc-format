@@ -103,7 +103,7 @@
 
 ;;;###autoload
 (defun erc-irc-format-underline ()
-  "Inserts a ^U control code, or encloses the active region with it"
+  "Inserts a ^_ control code, or encloses the active region with it"
   (interactive)
   (erc-irc-format--insert-or-enclose "\037"))
 
