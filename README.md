@@ -26,3 +26,5 @@ Alternatively, if you are using `use-package`:
 (use-package erc
    :bind (:map erc-mode-map ("C-c q" . erc-irc-format)))
 ```
+
+The package also includes an Erc module `erc-normalize` which enables yanking formatted text into the Erc input line. The module may be enabled via customizing `erc-modules` or by executing `M-x erc-normalize-enable`.
