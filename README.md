@@ -2,6 +2,9 @@
 
 A [transient.el](https://www.gnu.org/software/emacs/manual/html_mono/transient.html)-based UI for [IRC formatting control codes](https://modern.ircdocs.horse/formatting.html), for usage within Erc.
 
+![Foreground selection](.assets/0-fg.png?raw=true "Foreground color selection")
+![Background selection](.assets/1-bg.png?raw=true "Background color selection")
+
 # Requirements
 
 * Emacs 29+
