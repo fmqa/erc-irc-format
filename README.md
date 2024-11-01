@@ -10,7 +10,7 @@ A [transient.el](https://www.gnu.org/software/emacs/manual/html_mono/transient.h
 
 # Installation
 
-Load `erc-irc-format.el` into a buffer and execute `M-x install-package-from-buffer`, then insert the following into your `init.el`:
+Load `erc-irc-format.el` into a buffer and execute `M-x package-install-from-buffer`, then insert the following into your `init.el`:
 
 ```
 (require 'erc-irc-format)
