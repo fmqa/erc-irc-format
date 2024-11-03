@@ -28,3 +28,10 @@ Alternatively, if you are using `use-package`:
 ```
 
 The package also includes an Erc module `erc-normalize` which enables yanking formatted text into the Erc input line. The module may be enabled via customizing `erc-modules` or by executing `M-x erc-normalize-enable`.
+
+# Usage
+
+## Commands
+
+`M-x erc-irc-format` / _C-c q_: Open up a transient menu for formatting. If a region is active, that region is wrapped with the selected formatting code. Otherwise, the formatting code is inserted at point.
+`M-x erc-normalize-mode` / `M-x erc-normalize-enable` / `M-x erc-normalize-disable`: Enable or disable yank normalization in Erc - this normalizes/strips text properties from text inputted at the Erc input prompt, automatically translating them to formatting codes.
