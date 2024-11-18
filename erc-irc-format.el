@@ -3,7 +3,7 @@
 ;; Copyright (C) 2024 Alcor
 
 ;; Author: Alcor <alcor@tilde.club>
-;; URL: https://github.com/fmqa/elisp-snippets
+;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
