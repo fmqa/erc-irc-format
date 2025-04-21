@@ -5,7 +5,7 @@
 ;; Author: Alcor <alcor@tilde.club>
 ;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
-;; Version: 0.3
+;; Version: 0.4
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -108,10 +108,9 @@
   (erc-irc-format--insert-or-enclose "\037"))
 
 (defun erc-irc-format--dispatch (color)
-  "Dispatches to the next color selection transient or to the color code insertion function."
+  "Dispatches to the transient or to the insertion function."
   (if erc-irc-format-color
       (erc-irc-format--insert-color color)
-    (setq erc-irc-format-color color)
     (erc-irc-format color)))
 
 (defun erc-irc-format--color-p ()
@@ -120,7 +119,7 @@
 
 ;; Main transient menu
 ;;;###autoload (autoload 'erc-irc-format "erc-irc-format" nil t)
-(transient-define-prefix erc-irc-format ()
+(transient-define-prefix erc-irc-format (&optional n)
   "Apply IRC formatting codes."
   [:description (lambda () (if erc-irc-format-color "Background" "Foreground"))
    [("00" (lambda () (erc-irc-format--describe-color "white"       0)) (lambda () (interactive) (erc-irc-format--dispatch  0)))
@@ -145,14 +144,10 @@
   [:class transient-row :description "Effects" :if-not erc-irc-format--color-p
    ("i" erc-irc-format--describe-italic    erc-irc-format-italicize)
    ("b" erc-irc-format--describe-bold      erc-irc-format-boldify)
-   ("u" erc-irc-format--describe-underline erc-irc-format-underline)])
-
-(defun erc-irc-format--reset (&optional n)
-  "Reset selected color."
-  (setq erc-irc-format-color (when n (car n)))
-  nil)
-
-(advice-add 'erc-irc-format :filter-args #'erc-irc-format--reset)
+   ("u" erc-irc-format--describe-underline erc-irc-format-underline)]
+  (interactive)
+  (setq erc-irc-format-color n)
+  (transient-setup 'erc-irc-format))
 
 ;; Erc module to normalize text inserted at the prompt.
 ;; Author: Alcor <alcor@tilde.club>
