@@ -1,11 +1,11 @@
 ;;; erc-irc-format.el --- Transient menus for IRC formatting -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2024 Alcor
+;; Copyright (C) 2024,2025 Alcor
 
 ;; Author: Alcor <alcor@tilde.club>
 ;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
-;; Version: 0.2
+;; Version: 0.3
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -93,19 +93,19 @@
 (defun erc-irc-format-boldify ()
   "Inserts a ^B control code, or encloses the active region with it"
   (interactive)
-  (erc-irc-format-insert-or-enclose "\02"))
+  (erc-irc-format--insert-or-enclose "\02"))
 
 ;;;###autoload
 (defun erc-irc-format-italicize ()
   "Inserts an ^I control code, or encloses the active region with it"
   (interactive)
-  (erc-irc-format-insert-or-enclose "\035"))
+  (erc-irc-format--insert-or-enclose "\035"))
 
 ;;;###autoload
 (defun erc-irc-format-underline ()
   "Inserts a ^_ control code, or encloses the active region with it"
   (interactive)
-  (erc-irc-format-insert-or-enclose "\037"))
+  (erc-irc-format--insert-or-enclose "\037"))
 
 (defun erc-irc-format--dispatch (color)
   "Dispatches to the next color selection transient or to the color code insertion function."
