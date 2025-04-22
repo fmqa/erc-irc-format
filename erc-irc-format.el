@@ -5,7 +5,7 @@
 ;; Author: Alcor <alcor@tilde.club>
 ;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
-;; Version: 0.5
+;; Version: 0.6
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -53,17 +53,14 @@
     (list (erc-get-fg-color-face (or erc-irc-format-color color)))
     (when (and color erc-irc-format-color) (list (erc-get-bg-color-face (or color erc-irc-format-color)))))))
 
-;;;###autoload
 (defun erc-irc-format--describe-italic ()
   "Returns a sample italicized string."
   (propertize "italic" 'face '(erc-italic-face)))
 
-;;;###autoload
 (defun erc-irc-format--describe-bold ()
   "Returns a sample bold string."
   (propertize "bold" 'face '(erc-bold-face)))
 
-;;;###autoload
 (defun erc-irc-format--describe-underline ()
   "Returns a sample underlined string."
   (propertize "underline" 'face '(erc-underline-face)))
@@ -145,9 +142,9 @@
    ("s" "spoilers" (lambda () (interactive) (erc-irc-format--insert-color erc-irc-format-color)))
    ("RET" (lambda () (propertize "default" 'face (list (erc-get-fg-color-face erc-irc-format-color)))) (lambda () (interactive) (erc-irc-format--insert-color)))]
   [:class transient-row :description "Effects" :if-not erc-irc-format--color-p
-   ("i" erc-irc-format--describe-italic    erc-irc-format-italicize)
-   ("b" erc-irc-format--describe-bold      erc-irc-format-boldify)
-   ("u" erc-irc-format--describe-underline erc-irc-format-underline)]
+   ("i" erc-irc-format-italicize :description erc-irc-format--describe-italic)
+   ("b" erc-irc-format-boldify   :description erc-irc-format--describe-bold)
+   ("u" erc-irc-format-underline :description erc-irc-format--describe-underline)]
   (interactive)
   (setq erc-irc-format-color n)
   (transient-setup 'erc-irc-format))
