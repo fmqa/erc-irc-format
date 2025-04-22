@@ -5,7 +5,7 @@
 ;; Author: Alcor <alcor@tilde.club>
 ;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
-;; Version: 0.4
+;; Version: 0.5
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -53,14 +53,17 @@
     (list (erc-get-fg-color-face (or erc-irc-format-color color)))
     (when (and color erc-irc-format-color) (list (erc-get-bg-color-face (or color erc-irc-format-color)))))))
 
+;;;###autoload
 (defun erc-irc-format--describe-italic ()
   "Returns a sample italicized string."
   (propertize "italic" 'face '(erc-italic-face)))
 
+;;;###autoload
 (defun erc-irc-format--describe-bold ()
   "Returns a sample bold string."
   (propertize "bold" 'face '(erc-bold-face)))
 
+;;;###autoload
 (defun erc-irc-format--describe-underline ()
   "Returns a sample underlined string."
   (propertize "underline" 'face '(erc-underline-face)))
