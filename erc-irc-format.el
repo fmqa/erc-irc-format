@@ -5,7 +5,7 @@
 ;; Author: Alcor <alcor@tilde.club>
 ;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
-;; Version: 0.6
+;; Version: 0.7
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,13 +23,11 @@
 
 ;;; Commentary:
 
-;; To bind `C-c q' (recommended keybinding), add the following to your init.el:
+;; Installation via `use-package':
 
-;; (require 'erc-irc-format)
-;; (define-key erc-mode-map (kbd "C-c q") #'erc-irc-format)
-
-;; Or, using `use-package':
-;; (use-package erc
+;; (use-package erc-irc-format
+;;   :defer t
+;;   :vc (:url "https://github.com/fmqa/erc-irc-format.git")
 ;;   :bind (:map erc-mode-map ("C-c q" . erc-irc-format)))
 
 ;; If you are using Emacs ≤ 30.0, you will need to update the built-in package
@@ -152,81 +150,26 @@
 ;; Erc module to normalize text inserted at the prompt.
 ;; Author: Alcor <alcor@tilde.club>
 
-(defvar erc-normalize-copy-cc t "Copy control codes")
-
-(defmacro erc-normalize-color-mapper (n pred get-color-face value)
-  "Generates face mapper for color codes [0;n] where value is checked
-against get-color-face via pred."
-  `(cond
-    ,@(let (clauses)
-        (while (>= n 0)
-          (push `((funcall ,pred (funcall ,get-color-face ,n) ,value) ,n) clauses)
-          (setq n (1- n)))
-        clauses)))
-
-(defun erc-normalize-get-color (pred get-color-face value)
-  "Returns the color code for face VALUE given the inverse function GET-COLOR-FACE
-and the given equality predicate."
-  (erc-normalize-color-mapper 98 pred get-color-face value))
-
-(defun erc-normalize-text-enclose-cc (start end fg bg bold italic underline)
-  "Given formatting flags FG BG BOLD ITALIC UNDERLINE, enclose the string
-between START and END with the corresponding IRC formatting codes."
-  (let (open close)
-    (when bold (push "\02" open) (push "\02" close))
-    (when italic (push "\035" open) (push "\035" close))
-    (when underline (push "\037" open) (push "\037" close))
-    (when (or fg bg)
-      (push (if bg (format "\03%d,%d" (or fg 99) bg) (format "\03%d" fg)) open)
-      (push "\03" close))
-    (when (and open close)
-      (save-excursion
-        (goto-char end)
-        (insert (string-join close))
-        (goto-char start)
-        (insert (string-join open))))))
-
-(defun erc-normalize-text (value start end)
-  "Given a formatted string VALUE between START and END, enclose the
-string the appropriate formatting codes."
-  (let* ((pred (if (listp value) #'member #'equal))
-         (fg (erc-normalize-get-color pred #'erc-get-fg-color-face value))
-         (bg (erc-normalize-get-color pred #'erc-get-bg-color-face value))
-         (bold (funcall pred 'erc-bold-face value))
-         (italic (funcall pred 'erc-italic-face value))
-         (underline (funcall pred 'erc-underline-face value)))
-    (erc-normalize-text-enclose-cc start end fg bg bold italic underline)))
-
-(defun erc-normalize-cc-substitute (str)
-  "Given a formatted string STR, normalize it for sending over IRC,
-substituting ERC faces with corresponding control characters if
-ERC-NORMALIZE-COPY-CC is T."
+(defun erc-irc-format-normalize (str)
+  "Given a formatted text string STR, remove text properties."
   (with-temp-buffer
     (insert str)
     (goto-char (point-min))
-    (when erc-normalize-copy-cc
-      (let ((match nil))
-        (while (setq match (text-property-search-forward 'font-lock-face nil nil))
-          (let ((start (prop-match-beginning match))
-                (end (prop-match-end match))
-                (value (prop-match-value match)))
-            (erc-normalize-text value start end)))))
     (set-text-properties (point-min) (point-max) nil)
     (buffer-string)))
 
-(defun erc-normalize-setup ()
-  (add-hook 'yank-transform-functions #'erc-normalize-cc-substitute 70 t))
+(defun erc-irc-format-normalize-setup ()
+  (add-hook 'yank-transform-functions #'erc-irc-format-normalize 70 t))
 
-;;;###autoload (autoload 'erc-normalize-mode "erc-irc-format" nil t)
-(define-erc-module normalize nil
-  "This mode removes properties from text inserted at the prompt,
-possibly inserting corresponding control characters."
-  ((add-hook 'erc-mode-hook #'erc-normalize-setup)
-   (unless erc--updating-modules-p (erc-buffer-do #'erc-normalize-setup)))
-  ((remove-hook 'erc-mode-hook #'erc-normalize-setup)
+;;;###autoload (autoload 'erc-irc-format-normalize-mode "erc-irc-format" nil t)
+(define-erc-module irc-format-normalize nil
+  "This mode removes properties from text inserted at the Erc prompt."
+  ((add-hook 'erc-mode-hook #'erc-irc-format-normalize-setup)
+   (unless erc--updating-modules-p (erc-buffer-do #'erc-irc-format-normalize-setup)))
+  ((remove-hook 'erc-mode-hook #'erc-irc-format-normalize-setup)
    (dolist (buffer (erc-buffer-list))
      (with-current-buffer buffer
-       (remove-hook 'yank-transform-functions #'erc-normalize-cc-substitute t)))))
+       (remove-hook 'yank-transform-functions #'erc-irc-format-normalize t)))))
 
 (provide 'erc-irc-format)
 ;;; erc-irc-format.el ends here
