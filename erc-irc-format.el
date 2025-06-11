@@ -5,7 +5,7 @@
 ;; Author: Alcor <alcor@tilde.club>
 ;; URL: https://github.com/fmqa/erc-irc-format
 ;; Keywords: erc irc
-;; Version: 0.7
+;; Version: 0.8
 ;; Package-Requires: ((emacs "29.1") (erc "5.6") (transient "0.4.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
 ;; (use-package erc-irc-format
 ;;   :defer t
-;;   :vc (:url "https://github.com/fmqa/erc-irc-format.git")
+;;   :vc (:url "https://github.com/fmqa/erc-irc-format.git" :branch "main")
 ;;   :bind (:map erc-mode-map ("C-c q" . erc-irc-format)))
 
 ;; If you are using Emacs ≤ 30.0, you will need to update the built-in package
