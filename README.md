@@ -27,4 +27,4 @@ The package also includes an Erc module `erc-normalize` which enables yanking fo
 ## Commands
 
 * `M-x erc-irc-format` / _C-c q_: Open up a transient menu for formatting. If a region is active, that region is wrapped with the selected formatting code. Otherwise, the formatting code is inserted at point.
-* `M-x erc-normalize-mode` / `M-x erc-normalize-enable` / `M-x erc-normalize-disable`: Enable or disable yank normalization in Erc - this normalizes/strips text properties from text inputted at the Erc input prompt, automatically translating them to formatting codes.
+* `M-x erc-irc-format-normalize-mode` / `M-x erc-irc-format-normalize-enable` / `M-x erc-irc-format-normalize-disable`: Enable or disable yank normalization in Erc - this normalizes/strips text properties from text inputted at the Erc input prompt, removing any input codes.
